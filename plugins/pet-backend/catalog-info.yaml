@@ -1,0 +1,30 @@
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-component
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: pet-backend
+  title: '@internal/pet-backend'
+  description: Pet backend plugin
+spec:
+  type: backstage-backend-plugin
+  lifecycle: production
+  owner: rhdh-team
+  system: rhdh
+  providesApis:
+    - pet-backend-api
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-api
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: pet-backend-api
+  title: 'Pet API'
+  description: Pet backend plugin API
+spec:
+  type: openapi
+  lifecycle: production
+  owner: rhdh-team
+  system: rhdh
+  definition:
+    $text: https://github.com/dzemanov/backstage-openapi/blob/main/plugins/pet-backend/src/schema/openapi.yaml

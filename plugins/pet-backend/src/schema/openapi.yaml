@@ -1,4 +1,16 @@
 openapi: 3.0.0
+# servers:
+#   - url: '{protocol}://{host}:{port}/{basePath}'
+#     variables:
+#       protocol:
+#         enum: [http, https]
+#         default: http
+#       host:
+#         default: localhost
+#       port:
+#         default: '7007'
+#       basePath:
+#         default: 'api/pet'
 info:
   title: Pet API
   version: 1.0.0

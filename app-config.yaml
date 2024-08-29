@@ -94,6 +94,15 @@ catalog:
       rules:
         - allow: [User, Group]
 
+    - type: file
+      target: ../../plugins/pet-backend/catalog-info.yaml
+
+  providers:
+    backstageOpenapi:
+      plugins:
+        - catalog
+        - pet
+
     ## Uncomment these lines to add more example data
     # - type: url
     #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml
