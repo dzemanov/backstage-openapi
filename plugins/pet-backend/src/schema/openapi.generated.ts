@@ -289,6 +289,9 @@ export const spec = {
           petType: {
             $ref: '#/components/schemas/PetType',
           },
+          age: {
+            type: 'number',
+          },
         },
         required: ['id', 'name', 'petType'],
       },
@@ -347,8 +350,11 @@ export const spec = {
           petType: {
             $ref: '#/components/schemas/PetType',
           },
+          age: {
+            type: 'number',
+          },
         },
-        required: ['name', 'petType'],
+        required: ['name', 'petType', 'age'],
       },
       PetUpdate: {
         type: 'object',
