@@ -22,6 +22,7 @@
     "clean": "backstage-cli package clean",
     "prepack": "backstage-cli package prepack",
     "postpack": "backstage-cli package postpack",
+    "build:api-docs": "./scripts/openapi-doc.sh",
     "build:api-server": "yarn backstage-repo-tools package schema openapi generate --server"
   },
   "dependencies": {
