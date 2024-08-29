@@ -8,20 +8,20 @@ paths:
   /findPetsByType:
     get:
       responses:
-        "200":
+        '200':
           description: Pets found
           content:
             application/json; charset=utf-8:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Pet"
-        "400":
+                  $ref: '#/components/schemas/Pet'
+        '400':
           description: Pets not found
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
       parameters:
         - schema:
             type: string
@@ -32,7 +32,7 @@ paths:
     get:
       summary: Health check
       responses:
-        "200":
+        '200':
           description: Health check success
           content:
             application/json; charset=utf-8:
@@ -54,50 +54,50 @@ paths:
     get:
       summary: Get a pet by ID
       responses:
-        "200":
+        '200':
           description: Pet found
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: "#/components/schemas/Pet"
-        "404":
+                $ref: '#/components/schemas/Pet'
+        '404':
           description: Pet not found
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     put:
       summary: Update a pet by ID
       responses:
-        "200":
+        '200':
           description: 200 response
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: "#/components/schemas/Pet"
-        "404":
+                $ref: '#/components/schemas/Pet'
+        '404':
           description: 404 response
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PetUpdate"
+              $ref: '#/components/schemas/PetUpdate'
   /pets:
     get:
       description: Get pets
       responses:
-        "200":
+        '200':
           description: Pets found
           content:
             application/json; charset=utf-8:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Pet"
+                  $ref: '#/components/schemas/Pet'
       parameters:
         - schema:
             type: string
@@ -107,17 +107,17 @@ paths:
     post:
       summary: Create a new pet
       responses:
-        "201":
+        '201':
           description: Pet created
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: "#/components/schemas/Pet"
+                $ref: '#/components/schemas/Pet'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PetUpdate"
+              $ref: '#/components/schemas/PetUpdate'
 components:
   schemas:
     Pet:
