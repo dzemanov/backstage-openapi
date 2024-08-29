@@ -109,6 +109,16 @@ describe('createRouter', () => {
       expect(response.body).toEqual(expected);
     });
 
+    it('returns 400 if petType query parameter is invalid', async () => {
+      const response = await request(app).get('/findPetsByType?petType=bird');
+      expect(response.status).toEqual(400);
+      expect(response.body.error).toEqual({
+        message:
+          'request/query/petType must be equal to one of the allowed values: dog, cat, fish',
+        name: 'InputError',
+      });
+    });
+
     it('returns 400 if petType query parameter is missing', async () => {
       const response = await request(app).get('/findPetsByType');
       expect(response.status).toEqual(400);
@@ -137,6 +147,30 @@ describe('createRouter', () => {
         petType: PetType.cat,
       });
     });
+
+    it('returns 400 if pet does not have required name', async () => {
+      const newPet = { petType: PetType.cat };
+
+      const response = await request(app).post('/pets').send(newPet);
+
+      expect(response.status).toEqual(400);
+      expect(response.body.error).toEqual({
+        name: 'InputError',
+        message: "request/body must have required property 'name'",
+      });
+    });
+
+    it('returns 400 if pet does not have required petType', async () => {
+      const newPet = { name: 'Rex' };
+
+      const response = await request(app).post('/pets').send(newPet);
+
+      expect(response.status).toEqual(400);
+      expect(response.body.error).toEqual({
+        name: 'InputError',
+        message: "request/body must have required property 'petType'",
+      });
+    });
   });
 
   describe('PUT /pets/:id', () => {
@@ -159,6 +193,21 @@ describe('createRouter', () => {
 
       expect(response.status).toEqual(404);
       expect(response.body).toEqual({ error: 'Pet not found' });
+    });
+
+    it('returns 400 if invalid petType', async () => {
+      const existingPet = { id: 1, name: 'Fluffy', petType: PetType.cat };
+      const petToUpdate = { petType: 'bird' };
+      pets.push(existingPet);
+
+      const response = await request(app).put('/pets/1').send(petToUpdate);
+
+      expect(response.status).toEqual(400);
+      expect(response.body.error).toEqual({
+        name: 'InputError',
+        message:
+          'request/body/petType must be equal to one of the allowed values: dog, cat, fish',
+      });
     });
   });
 });
