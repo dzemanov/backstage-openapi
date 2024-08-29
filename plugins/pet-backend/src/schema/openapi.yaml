@@ -22,14 +22,14 @@ paths:
                   - status
 
   /pets/{id}:
-    parameters:
-      - in: path
-        name: id
-        required: true
-        schema:
-          type: string
     get:
       summary: Get a pet by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: Pet found
@@ -49,6 +49,12 @@ paths:
 
     put:
       summary: Update a pet by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: 200 response
