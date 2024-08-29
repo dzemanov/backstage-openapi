@@ -192,6 +192,7 @@ components:
         - id
         - name
         - petType
+        - age
     Error:
       type: object
       properties:
@@ -243,6 +244,8 @@ components:
           type: string
         petType:
           $ref: '#/components/schemas/PetType'
+        age:
+          type: number
     PetType:
       type: string
       enum:
