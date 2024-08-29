@@ -4,8 +4,8 @@ import {
   RootConfigService,
 } from '@backstage/backend-plugin-api';
 import express from 'express';
-import { pets, getNextId } from '../../dev/pets';
 import Router from 'express-promise-router';
+import { pets, getNextId } from '../../dev/pets';
 import { Pet, PetType } from '../../dev/types';
 
 export interface RouterOptions {
@@ -46,7 +46,17 @@ export async function createRouter(
   });
 
   router.get('/findPetsByType', async (req, res) => {
-    const { petType } = req.query;
+    const { petType } = req.query as { petType?: string };
+
+    // petType required
+    if (!petType) {
+      return res.status(400).json({
+        error: {
+          name: 'InputError',
+          message: "request/query must have required property 'petType'",
+        },
+      });
+    }
 
     const filteredPets = pets.filter(pet => pet.petType === petType);
     return res.json(filteredPets);
