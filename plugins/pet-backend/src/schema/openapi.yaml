@@ -37,6 +37,12 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/Pet'
+        '400':
+          description: Bad request
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
         '404':
           description: Pet not found
           content:
@@ -62,6 +68,12 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/Pet'
+        '400':
+          description: Bad request
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
         '404':
           description: Pet not found
           content:
