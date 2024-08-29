@@ -365,6 +365,9 @@ export const spec = {
           petType: {
             $ref: '#/components/schemas/PetType',
           },
+          age: {
+            type: 'number',
+          },
         },
       },
       PetType: {

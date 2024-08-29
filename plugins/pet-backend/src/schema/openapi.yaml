@@ -63,7 +63,8 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - {}
-        - JWT: []
+        - JWT:
+            []
 
     put:
       summary: Update a pet by ID
@@ -99,7 +100,8 @@ paths:
               $ref: '#/components/schemas/PetUpdate'
       security:
         - {}
-        - JWT: []
+        - JWT:
+            []
 
   /pets:
     get:
@@ -122,7 +124,8 @@ paths:
                   $ref: '#/components/schemas/Pet'
       security:
         - {}
-        - JWT: []
+        - JWT:
+            []
 
     post:
       summary: Create a new pet
@@ -146,7 +149,8 @@ paths:
               $ref: '#/components/schemas/PetCreate'
       security:
         - {}
-        - JWT: []
+        - JWT:
+            []
 
   /findPetsByType:
     get:
@@ -175,7 +179,8 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - {}
-        - JWT: []
+        - JWT:
+            []
 
 components:
   schemas:
@@ -188,6 +193,8 @@ components:
           type: string
         petType:
           $ref: '#/components/schemas/PetType'
+        age:
+          type: number
       required:
         - id
         - name
@@ -234,9 +241,12 @@ components:
           type: string
         petType:
           $ref: '#/components/schemas/PetType'
+        age:
+          type: number
       required:
         - name
         - petType
+        - age
     PetUpdate:
       type: object
       properties:
