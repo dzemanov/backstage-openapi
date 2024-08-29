@@ -28,6 +28,7 @@ paths:
         required: true
         schema:
           type: string
+
     get:
       summary: Get a pet by ID
       responses:
@@ -43,6 +44,10 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+        - {}
+        - JWT: []
+
     put:
       summary: Update a pet by ID
       responses:
@@ -63,6 +68,10 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PetUpdate'
+      security:
+        - {}
+        - JWT: []
+
   /pets:
     get:
       description: Get pets
@@ -81,6 +90,10 @@ paths:
           in: query
           name: name
           required: false
+      security:
+        - {}
+        - JWT: []
+
     post:
       summary: Create a new pet
       responses:
@@ -95,6 +108,10 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PetCreate'
+      security:
+        - {}
+        - JWT: []
+
   /findPetsByType:
     get:
       responses:
@@ -119,6 +136,10 @@ paths:
           description: type of the pets to retrieve
           schema:
             $ref: '#/components/schemas/PetType'
+      security:
+        - {}
+        - JWT: []
+
 components:
   schemas:
     Pet:
@@ -172,3 +193,10 @@ components:
         - dog
         - cat
         - fish
+
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Backstage Permissions Framework JWT
