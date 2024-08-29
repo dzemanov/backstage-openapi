@@ -113,11 +113,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       parameters:
-        - schema:
-            type: string
+        - name: petType
           in: query
-          name: petType
-          required: false
+          required: true
+          description: type of the pets to retrieve
+          schema:
+            $ref: '#/components/schemas/PetType'
 components:
   schemas:
     Pet:
@@ -128,7 +129,7 @@ components:
         name:
           type: string
         petType:
-          type: string
+          $ref: '#/components/schemas/PetType'
       required:
         - id
         - name
@@ -154,7 +155,7 @@ components:
         name:
           type: string
         petType:
-          type: string
+          $ref: '#/components/schemas/PetType'
       required:
         - name
         - petType
@@ -164,4 +165,10 @@ components:
         name:
           type: string
         petType:
-          type: string
+          $ref: '#/components/schemas/PetType'
+    PetType:
+      type: string
+      enum:
+        - dog
+        - cat
+        - fish
