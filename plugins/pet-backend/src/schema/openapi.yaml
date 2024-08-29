@@ -1,9 +1,8 @@
+openapi: 3.0.0
 info:
   title: Pet API
   version: 1.0.0
   description: API for managing pets.
-
-openapi: 3.1.0
 paths:
   /health:
     get:
@@ -21,6 +20,7 @@ paths:
                     example: ok
                 required:
                   - status
+
   /pets/{id}:
     parameters:
       - in: path
@@ -28,7 +28,6 @@ paths:
         required: true
         schema:
           type: string
-
     get:
       summary: Get a pet by ID
       responses:
@@ -58,7 +57,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Pet'
         '404':
-          description: 404 response
+          description: Pet not found
           content:
             application/json; charset=utf-8:
               schema:
@@ -75,6 +74,13 @@ paths:
   /pets:
     get:
       description: Get pets
+      parameters:
+        - name: name
+          in: query
+          required: false
+          description: Name of the pets to retrieve
+          schema:
+            type: string
       responses:
         '200':
           description: Pets found
@@ -84,12 +90,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pet'
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: name
-          required: false
       security:
         - {}
         - JWT: []
@@ -114,6 +114,14 @@ paths:
 
   /findPetsByType:
     get:
+      description: Get pets by type
+      parameters:
+        - name: petType
+          in: query
+          required: true
+          description: type of the pets to retrieve
+          schema:
+            $ref: '#/components/schemas/PetType'
       responses:
         '200':
           description: Pets found
@@ -124,18 +132,11 @@ paths:
                 items:
                   $ref: '#/components/schemas/Pet'
         '400':
-          description: Pets not found
+          description: Type query parameter is required
           content:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/Error'
-      parameters:
-        - name: petType
-          in: query
-          required: true
-          description: type of the pets to retrieve
-          schema:
-            $ref: '#/components/schemas/PetType'
       security:
         - {}
         - JWT: []
