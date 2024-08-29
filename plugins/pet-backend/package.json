@@ -26,6 +26,7 @@
   "dependencies": {
     "@backstage/backend-common": "^0.24.0",
     "@backstage/backend-defaults": "^0.4.2",
+    "@backstage/backend-openapi-utils": "^0.1.17",
     "@backstage/backend-plugin-api": "^0.8.0",
     "express": "^4.17.1",
     "express-promise-router": "^4.1.0",
@@ -38,8 +39,8 @@
     "@backstage/plugin-auth-backend-module-guest-provider": "^0.1.9",
     "@types/express": "*",
     "@types/supertest": "^2.0.12",
-    "supertest": "^6.2.4",
-    "msw": "^2.3.1"
+    "msw": "^2.3.1",
+    "supertest": "^6.2.4"
   },
   "files": [
     "dist"
