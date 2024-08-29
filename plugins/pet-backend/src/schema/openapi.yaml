@@ -94,7 +94,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PetUpdate'
+              $ref: '#/components/schemas/PetCreate'
   /findPetsByType:
     get:
       responses:
@@ -148,7 +148,7 @@ components:
             - message
       required:
         - error
-    PetUpdate:
+    PetCreate:
       type: object
       properties:
         name:
@@ -158,3 +158,10 @@ components:
       required:
         - name
         - petType
+    PetUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        petType:
+          type: string
