@@ -1,23 +1,27 @@
 info:
-  title: Untitled service
+  title: Pet API
   version: 1.0.0
+  description: API for managing pets.
+
 openapi: 3.1.0
 paths:
   /findPetsByType:
     get:
       responses:
         "200":
-          description: 200 response
+          description: Pets found
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: "#/components/schemas/GetFindpetsbytype200ResponseBody"
+                type: array
+                items:
+                  $ref: "#/components/schemas/Pet"
         "400":
-          description: 400 response
+          description: Pets not found
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: "#/components/schemas/GetFindpetsbytype400ResponseBody"
+                $ref: "#/components/schemas/Error"
       parameters:
         - schema:
             type: string
@@ -26,62 +30,74 @@ paths:
           required: false
   /health:
     get:
+      summary: Health check
       responses:
         "200":
-          description: 200 response
+          description: Health check success
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: "#/components/schemas/GetHealth200ResponseBody"
-  /pets/{pet}:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                required:
+                  - status
+  /pets/{id}:
     parameters:
       - in: path
-        name: pet
+        name: id
         required: true
         schema:
           type: string
     get:
+      summary: Get a pet by ID
       responses:
         "200":
-          description: 200 response
+          description: Pet found
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: "#/components/schemas/GetPetsPet200ResponseBody"
+                $ref: "#/components/schemas/Pet"
         "404":
-          description: 404 response
+          description: Pet not found
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: "#/components/schemas/GetPetsPet404ResponseBody"
+                $ref: "#/components/schemas/Error"
     put:
+      summary: Update a pet by ID
       responses:
         "200":
           description: 200 response
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: "#/components/schemas/GetPetsPet200ResponseBody"
+                $ref: "#/components/schemas/Pet"
         "404":
           description: 404 response
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: "#/components/schemas/GetPetsPet404ResponseBody"
+                $ref: "#/components/schemas/Error"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PutPetsPetRequestBody"
+              $ref: "#/components/schemas/PetUpdate"
   /pets:
     get:
+      description: Get pets
       responses:
         "200":
-          description: 200 response
+          description: Pets found
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: "#/components/schemas/GetFindpetsbytype200ResponseBody"
+                type: array
+                items:
+                  $ref: "#/components/schemas/Pet"
       parameters:
         - schema:
             type: string
@@ -89,36 +105,35 @@ paths:
           name: name
           required: false
     post:
+      summary: Create a new pet
       responses:
         "201":
-          description: 201 response
+          description: Pet created
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: "#/components/schemas/GetPetsPet200ResponseBody"
+                $ref: "#/components/schemas/Pet"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PutPetsPetRequestBody"
+              $ref: "#/components/schemas/PetUpdate"
 components:
   schemas:
-    GetFindpetsbytype200ResponseBody:
-      type: array
-      items:
-        type: object
-        properties:
-          id:
-            type: number
-          name:
-            type: string
-          petType:
-            type: string
-        required:
-          - id
-          - name
-          - petType
-    GetFindpetsbytype400ResponseBody:
+    Pet:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        petType:
+          type: string
+      required:
+        - id
+        - name
+        - petType
+    Error:
       type: object
       properties:
         error:
@@ -133,34 +148,7 @@ components:
             - message
       required:
         - error
-    GetHealth200ResponseBody:
-      type: object
-      properties:
-        status:
-          type: string
-      required:
-        - status
-    GetPetsPet200ResponseBody:
-      type: object
-      properties:
-        id:
-          type: number
-        name:
-          type: string
-        petType:
-          type: string
-      required:
-        - id
-        - name
-        - petType
-    GetPetsPet404ResponseBody:
-      type: object
-      properties:
-        error:
-          type: string
-      required:
-        - error
-    PutPetsPetRequestBody:
+    PetUpdate:
       type: object
       properties:
         name:
