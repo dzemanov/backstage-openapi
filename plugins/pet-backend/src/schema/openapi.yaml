@@ -121,6 +121,12 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/Pet'
+        '400':
+          description: Type query parameter is required
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
       requestBody:
         content:
           application/json:
@@ -178,15 +184,34 @@ components:
       type: object
       properties:
         error:
+          oneOf:
+            - type: object
+              properties:
+                name:
+                  type: string
+                message:
+                  type: string
+              required:
+                - name
+                - message
+            - type: string
+        request:
           type: object
           properties:
-            name:
+            method:
               type: string
-            message:
+            url:
               type: string
           required:
-            - name
-            - message
+            - method
+            - url
+        response:
+          type: object
+          properties:
+            statusCode:
+              type: number
+          required:
+            - statusCode
       required:
         - error
     PetCreate:
