@@ -2,7 +2,8 @@ import { mockServices } from '@backstage/backend-test-utils';
 import express from 'express';
 import request from 'supertest';
 import { createRouter } from './router';
-
+import { wrapInOpenApiTestServer } from '@backstage/backend-openapi-utils';
+import { Server } from 'http';
 import { getNextId, pets } from '../../dev/pets';
 import { PetType } from '../../dev/types';
 
@@ -12,14 +13,14 @@ jest.mock('../../dev/pets', () => ({
 }));
 
 describe('createRouter', () => {
-  let app: express.Express;
+  let app: express.Express | Server;
 
   beforeAll(async () => {
     const router = await createRouter({
       logger: mockServices.logger.mock(),
       config: mockServices.rootConfig(),
     });
-    app = express().use(router);
+    app = wrapInOpenApiTestServer(express().use(router));
   });
 
   beforeEach(() => {
