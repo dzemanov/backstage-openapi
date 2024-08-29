@@ -8,4 +8,5 @@ export type Pet = {
   id: number;
   name: string;
   petType: PetType;
+  age: number;
 };

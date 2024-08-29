@@ -41,7 +41,7 @@ describe('createRouter', () => {
 
   describe('GET /pets/:id', () => {
     it('returns a pet if found', async () => {
-      const testPet = { id: 1, name: 'Fluffy', petType: PetType.cat };
+      const testPet = { id: 1, name: 'Fluffy', petType: PetType.cat, age: 1 };
       pets.push(testPet);
 
       const response = await request(app).get('/pets/1');
@@ -60,14 +60,14 @@ describe('createRouter', () => {
   describe('GET /pets', () => {
     it('returns pets matching the name query parameter', async () => {
       const testPets = [
-        { id: 1, name: 'Fluffy', petType: PetType.cat },
-        { id: 2, name: 'Rex', petType: PetType.dog },
-        { id: 3, name: 'Fluffy', petType: PetType.dog },
+        { id: 1, name: 'Fluffy', petType: PetType.cat, age: 1 },
+        { id: 2, name: 'Rex', petType: PetType.dog, age: 2 },
+        { id: 3, name: 'Fluffy', petType: PetType.dog, age: 3 },
       ];
       pets.push(...testPets);
       const expected = [
-        { id: 1, name: 'Fluffy', petType: PetType.cat },
-        { id: 3, name: 'Fluffy', petType: PetType.dog },
+        { id: 1, name: 'Fluffy', petType: PetType.cat, age: 1 },
+        { id: 3, name: 'Fluffy', petType: PetType.dog, age: 3 },
       ];
 
       const response = await request(app).get('/pets?name=Fluffy');
@@ -78,9 +78,9 @@ describe('createRouter', () => {
 
     it('returns all pets if name query parameter is missing', async () => {
       const testPets = [
-        { id: 1, name: 'Fluffy', petType: PetType.cat },
-        { id: 2, name: 'Rex', petType: PetType.dog },
-        { id: 3, name: 'Fluffy', petType: PetType.dog },
+        { id: 1, name: 'Fluffy', petType: PetType.cat, age: 1 },
+        { id: 2, name: 'Rex', petType: PetType.dog, age: 2 },
+        { id: 3, name: 'Fluffy', petType: PetType.dog, age: 3 },
       ];
       pets.push(...testPets);
 
@@ -93,14 +93,14 @@ describe('createRouter', () => {
   describe('GET /findPetsByType', () => {
     it('returns pets matching the petType query parameter', async () => {
       const testPets = [
-        { id: 1, name: 'Dory', petType: PetType.fish },
-        { id: 2, name: 'Rex', petType: PetType.dog },
-        { id: 3, name: 'Nemo', petType: PetType.fish },
+        { id: 1, name: 'Dory', petType: PetType.fish, age: 1 },
+        { id: 2, name: 'Rex', petType: PetType.dog, age: 2 },
+        { id: 3, name: 'Nemo', petType: PetType.fish, age: 3 },
       ];
       pets.push(...testPets);
       const expected = [
-        { id: 1, name: 'Dory', petType: PetType.fish },
-        { id: 3, name: 'Nemo', petType: PetType.fish },
+        { id: 1, name: 'Dory', petType: PetType.fish, age: 1 },
+        { id: 3, name: 'Nemo', petType: PetType.fish, age: 3 },
       ];
 
       const response = await request(app).get('/findPetsByType?petType=fish');
@@ -131,25 +131,23 @@ describe('createRouter', () => {
 
   describe('POST /pets', () => {
     it('creates a new pet', async () => {
-      const newPet = { name: 'Fluffy', petType: PetType.cat };
+      const newPet = { name: 'Fluffy', petType: PetType.cat, age: 4 };
 
       const response = await request(app).post('/pets').send(newPet);
 
       expect(response.status).toEqual(201);
       expect(response.body).toEqual({
         id: 1,
-        name: 'Fluffy',
-        petType: PetType.cat,
+        ...newPet,
       });
       expect(pets).toContainEqual({
         id: 1,
-        name: 'Fluffy',
-        petType: PetType.cat,
+        ...newPet,
       });
     });
 
     it('returns 400 if pet does not have required name', async () => {
-      const newPet = { petType: PetType.cat };
+      const newPet = { petType: PetType.cat, age: 4 };
 
       const response = await request(app).post('/pets').send(newPet);
 
@@ -161,7 +159,7 @@ describe('createRouter', () => {
     });
 
     it('returns 400 if pet does not have required petType', async () => {
-      const newPet = { name: 'Rex' };
+      const newPet = { name: 'Rex', age: 4 };
 
       const response = await request(app).post('/pets').send(newPet);
 
@@ -175,15 +173,20 @@ describe('createRouter', () => {
 
   describe('PUT /pets/:id', () => {
     it('updates an existing pet', async () => {
-      const existingPet = { id: 1, name: 'Fluffy', petType: PetType.cat };
+      const existingPet = {
+        id: 1,
+        name: 'Fluffy',
+        petType: PetType.cat,
+        age: 4,
+      };
       const petToUpdate = { name: 'Whiskers', petType: PetType.cat };
       pets.push(existingPet);
 
       const response = await request(app).put('/pets/1').send(petToUpdate);
 
       expect(response.status).toEqual(200);
-      expect(response.body).toEqual({ id: 1, ...petToUpdate });
-      expect(pets[0]).toEqual({ id: 1, ...petToUpdate });
+      expect(response.body).toEqual({ ...existingPet, ...petToUpdate });
+      expect(pets[0]).toEqual({ ...existingPet, ...petToUpdate });
     });
 
     it('returns 404 if pet not found', async () => {
@@ -196,7 +199,12 @@ describe('createRouter', () => {
     });
 
     it('returns 400 if invalid petType', async () => {
-      const existingPet = { id: 1, name: 'Fluffy', petType: PetType.cat };
+      const existingPet = {
+        id: 1,
+        name: 'Fluffy',
+        petType: PetType.cat,
+        age: 4,
+      };
       const petToUpdate = { petType: 'bird' };
       pets.push(existingPet);
 

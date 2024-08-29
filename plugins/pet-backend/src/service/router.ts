@@ -53,11 +53,12 @@ export async function createRouter(
   });
 
   router.post('/pets', async (req, res) => {
-    const { name, petType } = req.body;
+    const { name, petType, age } = req.body;
     const newPet: Pet = {
       id: getNextId(),
       name,
       petType: petType as PetType,
+      age,
     };
     pets.push(newPet);
     return res.status(201).json(newPet);
@@ -65,13 +66,14 @@ export async function createRouter(
 
   router.put('/pets/:id', async (req, res) => {
     const petId = parseInt(req.params.id, 10);
-    const { name, petType } = req.body;
+    const { name, petType, age } = req.body as Pet;
 
     const pet = pets.find(p => p.id === petId);
 
     if (pet) {
       pet.name = name || pet.name;
       pet.petType = (petType as PetType) || pet.petType;
+      pet.age = age || pet.age;
       res.json({ ...pet });
     } else {
       res.status(404).json({ error: 'Pet not found' });
