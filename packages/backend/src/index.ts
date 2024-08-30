@@ -51,4 +51,10 @@ backend.add(import('@backstage/plugin-search-backend-module-techdocs/alpha'));
 // kubernetes
 backend.add(import('@backstage/plugin-kubernetes-backend/alpha'));
 
+// swagger
+backend.add(
+  import('@backstage/plugin-catalog-backend-module-backstage-openapi'),
+);
+
+backend.add(import('@internal/backstage-plugin-pet-backend'));
 backend.start();
